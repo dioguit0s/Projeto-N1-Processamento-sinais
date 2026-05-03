@@ -183,9 +183,12 @@ def plot_tempo_original_vs_filtrado(
     M: int,
     fs: int,
     caminho_png: str,
-    duracao_plot: float = 2.0,
+    duracao_plot: float | None = None,
 ) -> None:
-    n_max = min(len(original), int(duracao_plot * fs))
+    if duracao_plot is None:
+        n_max = len(original)
+    else:
+        n_max = min(len(original), int(duracao_plot * fs))
     t_seg = t[:n_max]
     fig, ax = plt.subplots(figsize=(11, 4))
     ax.plot(t_seg, original[:n_max], label="Original", alpha=0.85, linewidth=0.9)
@@ -206,10 +209,13 @@ def plot_tempo_comparacao_todos_M(
     filtrados_por_m: dict[int, np.ndarray],
     fs: int,
     caminho_png: str,
-    duracao_plot: float = 2.0,
+    duracao_plot: float | None = None,
 ) -> None:
     """Sobrepor original e sinais filtrados para todos os M (Parte 3 — comparar resultados)."""
-    n_max = min(len(original), int(duracao_plot * fs))
+    if duracao_plot is None:
+        n_max = len(original)
+    else:
+        n_max = min(len(original), int(duracao_plot * fs))
     t_seg = t[:n_max]
     fig, ax = plt.subplots(figsize=(12, 5))
     ax.plot(t_seg, original[:n_max], label="Original", color="black", alpha=0.75, linewidth=1.0)
@@ -303,10 +309,18 @@ def main() -> int:
     parser.add_argument(
         "--duracao-plot",
         type=float,
-        default=2.0,
-        help="Segundos do sinal a mostrar nos gráficos no tempo (default: 2)",
+        default=None,
+        metavar="S",
+        help=(
+            "Segundos a mostrar nos gráficos no tempo; omitir = duração total do WAV. "
+            "Ex.: --duracao-plot 5 limita aos primeiros 5 s."
+        ),
     )
     args = parser.parse_args()
+
+    if args.duracao_plot is not None and args.duracao_plot <= 0:
+        print("--duracao-plot deve ser um número positivo.", file=sys.stderr)
+        return 1
 
     if not os.path.isfile(args.wav):
         print(f"Ficheiro não encontrado: {args.wav}", file=sys.stderr)
