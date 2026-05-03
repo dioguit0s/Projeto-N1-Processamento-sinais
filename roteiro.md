@@ -14,7 +14,9 @@ Guia para executar o script de filtragem (média móvel por convolução) com **
    python -m pip install -r requirements.txt
    ```
 
-No Windows, se o comando `pip` não for reconhecido, use sempre **`python -m pip`**.
+**No Windows:** se `pip` não for reconhecido, use **`python -m pip`** (o `pip` isolado nem sempre está no `PATH`). Se o comando **`python`** também não for reconhecido, use o launcher **`py`** da mesma forma: **`py -m pip install -r requirements.txt`**.
+
+Nos passos seguintes, sempre que aparecer `python` antes do nome do script ou de `-m pip`, pode substituir por **`py`** no seu PC (é o comportamento habitual em instalações Python no Windows via Microsoft Store ou instalador oficial).
 
 ## 2. Formato do ficheiro de entrada
 
@@ -23,10 +25,16 @@ No Windows, se o comando `pip` não for reconhecido, use sempre **`python -m pip
 
 ## 3. Comando básico
 
-Substitua o caminho pelo seu ficheiro:
+Substitua o caminho pelo seu ficheiro. Use **`py`** em vez de **`python`** se só o launcher `py` funcionar no seu terminal (Windows).
 
 ```powershell
 python projeto_n1.py "caminho\para\seu_audio.wav"
+```
+
+Equivalente com o launcher `py`:
+
+```powershell
+py projeto_n1.py "caminho\para\seu_audio.wav"
 ```
 
 ### Exemplos
@@ -44,13 +52,17 @@ python projeto_n1.py "caminho\para\seu_audio.wav"
   python projeto_n1.py "A:\Meus Documentos\gravacao.wav"
   ```
 
+Em qualquer um destes exemplos, pode trocar `python` por `py` (por exemplo `py projeto_n1.py gravacao_fala.wav`).
+
 ## 4. Opção: duração dos gráficos no domínio do tempo
 
-Por defeito, os gráficos de **tempo** mostram os **primeiros 2 segundos** do sinal. Para alterar (por exemplo 5 segundos):
+Por padrão, os gráficos de **tempo** cobrem a **duração total** do ficheiro WAV. Para mostrar apenas um trecho inicial (por exemplo os primeiros 5 segundos):
 
 ```powershell
 python projeto_n1.py seu_audio.wav --duracao-plot 5
 ```
+
+(Com `py`: `py projeto_n1.py seu_audio.wav --duracao-plot 5`.)
 
 ## 5. O que o programa gera
 
@@ -75,7 +87,8 @@ O programa imprime no terminal a frequência de amostragem (`fs`), o número de 
 | Situação | O que verificar |
 |----------|------------------|
 | Ficheiro não encontrado | Nome, extensão `.wav`, pasta atual ou uso de caminho completo e aspas. |
-| `pip` não reconhecido | Usar `python -m pip install -r requirements.txt`. |
+| `pip` não reconhecido | Usar `python -m pip install -r requirements.txt` ou, no Windows, `py -m pip install -r requirements.txt`. |
+| `python` não reconhecido (Windows) | Usar o launcher **`py`** nos mesmos comandos (por exemplo `py projeto_n1.py ...` e `py -m pip ...`). |
 
 ## 8. Relatório do trabalho
 
